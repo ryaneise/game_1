@@ -1,15 +1,3 @@
-window.onerror = function(message, source, line) {
-    document.body.innerHTML +=
-    "<h2 style='color:red'>" +
-    message +
-    "<br>Line: " +
-    line +
-    "</h2>";
-};
-
-console.log("GAME STARTED");
-document.body.innerHTML += "<h1 style='color:red'>GAME JS LOADED</h1>";
-alert("GAME.JS LOADED");
 const sceneText = document.getElementById("sceneText");
 const choices = document.getElementById("choices");
 
@@ -587,4 +575,148 @@ showScene(`
 
 Receiver configured.
 
-G/T is the
+G/T is the ultimate measure of
+"how well can we hear?"
+
+`,
+[
+{
+text:"Continue",
+action:weatherScene
+}
+]);
+
+}
+
+
+
+// -------------------------
+// WEATHER
+// -------------------------
+
+function weatherScene(){
+
+showScene(`
+
+<h2>STEP 7: WEATHER</h2>
+
+The Earth station reports:
+
+A storm is approaching.
+
+Ka-band hates rain.
+
+How much margin do you reserve?
+
+`,
+[
+
+{
+text:"Ignore weather",
+action:function(){
+
+link.rainFadeDb=15;
+
+finish();
+
+}
+},
+
+{
+text:"Add 5 dB rain margin",
+action:function(){
+
+link.rainFadeDb=5;
+
+finish();
+
+}
+}
+
+]);
+
+}
+
+
+
+// -------------------------
+// FINAL
+// -------------------------
+
+function finish(){
+
+updateBudget();
+
+
+let margin=calculateMargin();
+
+
+if(margin>=3){
+
+showScene(`
+
+<h1>MISSION SUCCESS</h1>
+
+The carrier locks.
+
+The demodulator synchronizes.
+
+METAL-X9 is alive.
+
+🌎 Earth receives the signal.
+
+Millions of humans begin headbanging.
+
+Scientists celebrate.
+
+The universe once again hears:
+
+<b>HEAVY METAL.</b>
+
+<br><br>
+
+Final Link Margin:
+
+${margin.toFixed(1)} dB
+
+<br><br>
+
+You are officially:
+
+<b>THE ENGINEER WHO SAVED ROCK.</b>
+
+`,
+[]);
+
+}
+
+else{
+
+showScene(`
+
+<h1>LINK FAILURE</h1>
+
+The carrier was detected...
+
+but not decoded.
+
+Your link margin was:
+
+${margin.toFixed(1)} dB
+
+The satellite says:
+
+"Need more cowbell... and more engineering."
+
+`,
+[
+{
+text:"Redesign",
+action:frequencyScene
+}
+]);
+
+}
+
+
+}

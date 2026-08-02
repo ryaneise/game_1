@@ -1,294 +1,578 @@
-let progress = 0;
-
-const story = document.getElementById("story");
+const sceneText = document.getElementById("sceneText");
 const choices = document.getElementById("choices");
-const score = document.getElementById("progress");
 
-function scene(text, buttons) {
 
-    story.innerHTML = text;
-    choices.innerHTML = "";
+function showScene(text, options){
 
-    buttons.forEach(b=>{
-        let btn=document.createElement("button");
-        btn.innerHTML=b.text;
-        btn.onclick=b.action;
-        choices.appendChild(btn);
+    sceneText.innerHTML = text;
+
+    choices.innerHTML="";
+
+    options.forEach(option=>{
+
+        let button=document.createElement("button");
+
+        button.innerHTML=option.text;
+
+        button.onclick=option.action;
+
+        choices.appendChild(button);
+
     });
+
+    updateBudget();
+
 }
 
 
-scene(
-`
-YEAR 2097...
 
-Deep beyond Mars, a lonely satellite named <b>METAL-X9</b>
-was broadcasting the greatest heavy metal playlist ever assembled.
+// -------------------------
+// MODCOD DATABASE
+// -------------------------
 
-Scientists called it:
-<br><br>
-"THE GALACTIC RIFF TRANSMITTER."
+const modcods = [
 
-Then disaster struck.
+{
+name:"BPSK 1/2",
+requiredEbNo:3,
+efficiency:.5
+},
 
-The signal vanished.
+{
+name:"QPSK 3/4",
+requiredEbNo:5,
+efficiency:1.5
+},
 
-Earth has gone silent.
+{
+name:"16APSK 3/4",
+requiredEbNo:8,
+efficiency:3
+},
 
-Millions of guitarists stare sadly at their instruments.
-Headbangers have been forced to listen to elevator music.
+{
+name:"64APSK 5/6",
+requiredEbNo:12,
+efficiency:5
+}
 
-The only person capable of restoring the link...
+];
 
-is YOU.
+
+
+// -------------------------
+// START
+// -------------------------
+
+showScene(`
+
+<h2>YEAR 2097</h2>
+
+Deep in the outer solar system, the greatest achievement
+of human engineering has fallen silent.
+
+Satellite <b>METAL-X9</b> was transmitting the largest
+heavy metal concert ever broadcast.
+
+Then the signal disappeared.
+
+Earth's musicians have gone silent.
+
+Guitarists stare into the darkness.
+
+Scientists have been forced to listen to elevator music.
+
+The satellite is alive.
+
+The RF link is not.
 
 Your mission:
-Build an RF link budget and reconnect humanity with the crushing power of deep-space metal.
+
+<b>Design a deep-space communications link budget
+and restore the signal.</b>
+
+Required:
+
+<br><br>
+
+Data Rate: 3 Mbps
+
+Target Link Margin: +3 dB
+
+<br><br>
+
+Can you save humanity's metal?
+
 `,
 [
 {
-text:"ACCEPT THE CHALLENGE",
-action:accept
-},
-{
-text:"Reject mission",
-action:reject
+text:"ACCEPT MISSION 🤘",
+action:frequencyScene
 }
 ]);
 
 
-function reject(){
-
-scene(
-`
-You walk away.
-
-The universe grows quiet.
-
-A single tear falls from a guitarist's eye.
-
-The last words transmitted from METAL-X9 were:
-
-<br><br>
-<b>"Whimp."</b>
-`,
-[]);
-}
 
 
-function accept(){
 
-scene(
-`
-Excellent choice, Commander.
+// -------------------------
+// FREQUENCY
+// -------------------------
 
-Your ancient engineering terminal boots up.
+function frequencyScene(){
 
-Step 1:
-Determine the transmitted power.
+showScene(`
 
-METAL-X9 has a power amplifier.
+<h2>STEP 1: FREQUENCY SELECTION</h2>
 
-How much RF power should we transmit?
+The satellite engineer looks worried.
 
-<br><br>
-(Warning: choosing "maximum power" may annoy the satellite neighbors.)
+"Commander, frequency choice determines everything."
+
+Higher frequencies provide bandwidth but suffer more
+atmospheric loss.
+
+Choose the communications band:
+
 `,
 [
+
 {
-text:"1 watt",
-action:()=>wrong("The signal barely reaches the satellite antenna. The aliens mistake it for a microwave oven.")
-},
-{
-text:"100 watts",
-action:()=>correct("Good. Enough power to rock the solar system.")
-},
-{
-text:"1 gigawatt",
-action:()=>wrong("You accidentally create the world's most expensive space toaster.")
+text:"S-band (2.2 GHz)",
+action:function(){
+
+link.frequencyGHz=2.2;
+
+link.txGainDbi=28;
+
+frequencyDone();
+
 }
+},
+
+{
+text:"X-band (8.4 GHz)",
+action:function(){
+
+link.frequencyGHz=8.4;
+
+link.txGainDbi=35;
+
+frequencyDone();
+
+}
+},
+
+{
+text:"Ka-band (32 GHz)",
+action:function(){
+
+link.frequencyGHz=32;
+
+link.txGainDbi=42;
+
+frequencyDone();
+
+}
+}
+
 ]);
+
 }
 
 
-function correct(msg){
 
-progress++;
-score.innerHTML=progress;
+function frequencyDone(){
 
-scene(
-msg+
-`
-<br><br>
-Link budget step complete.
+showScene(`
+
+Good choice.
+
+RF TIP:
+
+Higher frequency means:
+
++ More bandwidth
+
+- More path loss
+
+- More rain fade
+
+The universe is big.
+Radio waves have a difficult commute.
+
 `,
 [
 {
 text:"Continue",
-action:nextStep
+action:powerScene
 }
 ]);
 
 }
 
 
-function wrong(msg){
 
-scene(
-msg+
-`
-<br><br>
-Engineering note:
-Try again, Commander.
+// -------------------------
+// POWER
+// -------------------------
+
+function powerScene(){
+
+showScene(`
+
+<h2>STEP 2: TRANSMITTER POWER</h2>
+
+The satellite has limited electrical power.
+
+More watts means a stronger signal,
+but also more heat.
+
+Choose the amplifier:
+
 `,
 [
+
 {
-text:"Retry",
-action:accept
-}
-]);
+text:"50 W amplifier",
+action:function(){
+
+link.txPowerW=50;
+powerDone();
 
 }
-
-
-function nextStep(){
-
-if(progress===1){
-
-scene(
-`
-Step 2:
-Choose the antenna gain.
-
-Deep space requires a focused beam.
-
-What antenna do we use?
-`,
-[
-{
-text:"High gain dish antenna",
-action:()=>correct("Excellent. The dish focuses RF energy like a laser made of radio waves.")
 },
+
 {
-text:"A car antenna",
-action:()=>wrong("The satellite receives a request to play heavy metal... from someone's garage.")
+text:"250 W amplifier",
+action:function(){
+
+link.txPowerW=250;
+powerDone();
+
 }
+},
+
+{
+text:"500 W amplifier",
+action:function(){
+
+link.txPowerW=500;
+powerDone();
+
+}
+}
+
 ]);
 
 }
 
-else if(progress===2){
 
-scene(
-`
-Step 3:
-Calculate free-space path loss.
+function powerDone(){
 
-The signal must travel millions of kilometers.
+showScene(`
 
-What happens to signal strength over distance?
+Transmitter configured.
+
+Remember:
+
+Power is converted logarithmically.
+
+A 10x increase in power gives only
++10 dB.
+
 `,
 [
 {
-text:"It gets weaker",
-action:()=>correct("Correct. Space is very rude to radio waves.")
-},
-{
-text:"It gets louder",
-action:()=>wrong("Unfortunately physics does not work that way.")
+text:"Choose antenna",
+action:antennaScene
 }
 ]);
 
 }
 
-else if(progress===3){
 
-scene(
-`
-Step 4:
-Select the receiver.
 
-Earth needs a sensitive antenna system.
+// -------------------------
+// ANTENNA
+// -------------------------
+
+function antennaScene(){
+
+showScene(`
+
+<h2>STEP 3: TRANSMIT ANTENNA</h2>
+
+Antenna gain focuses energy.
+
+Would you rather shout louder,
+or point a megaphone directly at Earth?
 
 Choose:
+
+`,
+[
+
+{
+text:"Small antenna - 20 dBi",
+action:function(){
+
+link.txGainDbi=20;
+antennaDone();
+
+}
+},
+
+{
+text:"Deep space dish - 42 dBi",
+action:function(){
+
+link.txGainDbi=42;
+antennaDone();
+
+}
+}
+
+]);
+
+}
+
+
+
+function antennaDone(){
+
+showScene(`
+
+Antenna selected.
+
+EIRP is now calculated:
+
+<b>EIRP = TX Power + Antenna Gain - Losses</b>
+
 `,
 [
 {
-text:"Large radio telescope",
-action:()=>correct("Perfect. Humanity dusts off the giant antennas.")
-},
-{
-text:"A phone held toward the sky",
-action:()=>wrong("The phone says: 'Searching...' forever.")
+text:"Continue",
+action:bandwidthScene
 }
 ]);
 
 }
 
-else if(progress===4){
 
-scene(
-`
-Final step:
-Account for link margin.
 
-Engineers always leave extra room.
+// -------------------------
+// BANDWIDTH
+// -------------------------
 
-Why?
+function bandwidthScene(){
+
+showScene(`
+
+<h2>STEP 4: TRANSMITTER BANDWIDTH</h2>
+
+The band manager asks:
+
+"How much heavy metal can you push through the pipe?"
+
+Remember:
+
+More bandwidth means more noise.
+
+Choose:
+
+`,
+[
+
+{
+text:"100 kHz",
+action:function(){
+
+link.bandwidthHz=100000;
+bandwidthDone();
+
+}
+},
+
+{
+text:"1 MHz",
+action:function(){
+
+link.bandwidthHz=1000000;
+bandwidthDone();
+
+}
+},
+
+{
+text:"10 MHz",
+action:function(){
+
+link.bandwidthHz=10000000;
+bandwidthDone();
+
+}
+}
+
+]);
+
+}
+
+
+
+function bandwidthDone(){
+
+showScene(`
+
+Bandwidth selected.
+
+RF TIP:
+
+Noise increases with bandwidth.
+
+A wider highway is useless
+if the signal is buried in noise.
+
 `,
 [
 {
-text:"Because reality enjoys ruining calculations",
-action:()=>victory()
-},
-{
-text:"Because math is optional",
-action:()=>wrong("The satellite engineers are disappointed.")
+text:"Select MODCOD",
+action:modcodScene
 }
 ]);
 
 }
 
-}
 
 
-function victory(){
+// -------------------------
+// MODCOD
+// -------------------------
 
-progress=5;
-score.innerHTML=5;
+function modcodScene(){
 
-scene(
-`
-MISSION COMPLETE.
+showScene(`
 
-Your RF link budget is flawless.
+<h2>STEP 5: MODCOD SELECTION</h2>
 
-The deep-space antenna locks onto METAL-X9.
+The satellite asks:
 
-A carrier appears...
+"How aggressive do you want to be?"
 
-The signal returns.
+Higher modulation gives higher data rates,
+but requires cleaner signals.
 
-<br><br>
-
-🌎 Earth receives the transmission.
-
-Across the planet:
-
-🤘 Humans headbang.
-
-🤘 Scientists air-guitar.
-
-🤘 Even the satellites start vibrating.
-
-<br><br>
-
-The galaxy hears the greatest heavy metal concert ever broadcast.
-
-Your name is remembered forever as:
-
-<br>
-<b>THE ENGINEER WHO SAVED ROCK.</b>
 `,
-[]);
+[
+
+{
+text:"BPSK 1/2 (safe)",
+action:function(){
+
+link.modcod=modcods[0];
+
+modcodDone();
+
 }
+},
+
+{
+text:"QPSK 3/4",
+action:function(){
+
+link.modcod=modcods[1];
+
+modcodDone();
+
+}
+},
+
+{
+text:"64APSK 5/6 (metal speed mode)",
+action:function(){
+
+link.modcod=modcods[3];
+
+modcodDone();
+
+}
+}
+
+]);
+
+}
+
+
+function modcodDone(){
+
+showScene(`
+
+MODCOD locked.
+
+The satellite now knows how many bits
+it can squeeze through each symbol.
+
+`,
+[
+{
+text:"Configure receiver",
+action:receiverScene
+}
+]);
+
+}
+
+
+
+// -------------------------
+// RECEIVER
+// -------------------------
+
+function receiverScene(){
+
+showScene(`
+
+<h2>STEP 6: RECEIVER G/T</h2>
+
+Earth needs to hear a whisper
+from billions of kilometers away.
+
+Choose ground station:
+
+`,
+[
+
+{
+text:"Small dish G/T = 25 dB/K",
+action:function(){
+
+link.rxGainDbi=50;
+
+receiverDone();
+
+}
+},
+
+{
+text:"Deep Space Network G/T = 55 dB/K",
+action:function(){
+
+link.rxGainDbi=85;
+
+receiverDone();
+
+}
+}
+
+]);
+
+}
+
+
+function receiverDone(){
+
+showScene(`
+
+Receiver configured.
+
+G/T is the

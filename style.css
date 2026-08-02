@@ -1,99 +1,224 @@
 body {
-    margin:0;
-    background:black;
-    color:#00ff66;
-    font-family:"Courier New", monospace;
-    overflow:hidden;
+
+margin:0;
+background:black;
+font-family:"Courier New", monospace;
+color:#00ff66;
+
 }
+
 
 #game {
-    height:100vh;
-    position:relative;
+
+height:100vh;
+overflow:hidden;
+
 }
+
 
 #space {
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:
-      radial-gradient(circle at 20% 20%, white 1px, transparent 2px),
-      radial-gradient(circle at 70% 40%, white 1px, transparent 2px),
-      radial-gradient(circle at 40% 80%, white 1px, transparent 2px),
-      #020014;
+
+position:absolute;
+width:100%;
+height:100%;
+
+background:
+radial-gradient(circle,white 1px,transparent 2px),
+#000015;
+
 }
+
 
 #earth {
-    position:absolute;
-    font-size:180px;
-    bottom:80px;
-    left:100px;
+
+position:absolute;
+bottom:50px;
+left:80px;
+
+font-size:180px;
+
 }
 
-#planet1 {
-    position:absolute;
-    top:80px;
-    right:150px;
-    font-size:100px;
+
+#moon {
+
+position:absolute;
+top:100px;
+right:250px;
+
+font-size:80px;
+
 }
 
-#planet2 {
-    position:absolute;
-    top:220px;
-    left:45%;
-    font-size:70px;
+
+#mars {
+
+position:absolute;
+top:200px;
+left:45%;
+
+font-size:70px;
+
 }
 
-#planet3 {
-    position:absolute;
-    bottom:250px;
-    right:300px;
-    font-size:60px;
+
+#satellite {
+
+position:absolute;
+top:120px;
+right:80px;
+
+font-size:80px;
+
+animation:pulse 2s infinite;
+
 }
 
-#screen {
-    position:absolute;
-    left:10%;
-    right:10%;
-    top:8%;
-    bottom:8%;
-    background:rgba(0,0,30,.85);
-    border:4px solid #00ff66;
-    padding:25px;
-    box-shadow:0 0 30px #00ff66;
+
+@keyframes pulse {
+
+50% {
+filter:
+drop-shadow(0 0 20px cyan);
 }
+
+}
+
+
+
+#terminal {
+
+position:absolute;
+
+top:5%;
+left:5%;
+right:5%;
+bottom:5%;
+
+background:
+rgba(0,0,30,.88);
+
+border:
+3px solid #00ff66;
+
+padding:25px;
+
+box-shadow:
+0 0 30px #00ff66;
+
+}
+
 
 h1 {
-    text-align:center;
-    color:#ffdd00;
-    text-shadow:3px 3px #ff0000;
+
+text-align:center;
+color:#ffff00;
+
 }
 
-#story {
-    font-size:20px;
-    line-height:1.5;
-    margin-top:30px;
-    min-height:250px;
+
+
+#sceneText {
+
+font-size:19px;
+
+line-height:1.5;
+
+height:220px;
+
+overflow:auto;
+
 }
+
+
+
+#budget {
+
+position:absolute;
+
+right:25px;
+top:100px;
+
+width:300px;
+
+border:
+2px solid #00ff66;
+
+padding:10px;
+
+background:#001;
+
+}
+
+
+
+table {
+
+width:100%;
+
+}
+
+
+td {
+
+padding:4px;
+
+}
+
+
+
+#choices {
+
+position:absolute;
+
+bottom:25px;
+
+left:25px;
+
+}
+
+
 
 button {
-    background:#111;
-    color:#00ff66;
-    border:2px solid #00ff66;
-    padding:15px;
-    margin:10px;
-    font-family:inherit;
-    font-size:18px;
-    cursor:pointer;
+
+background:black;
+
+border:
+2px solid #00ff66;
+
+color:#00ff66;
+
+padding:12px;
+
+margin:5px;
+
+font-family:inherit;
+
+font-size:16px;
+
+cursor:pointer;
+
 }
+
 
 button:hover {
-    background:#00ff66;
-    color:black;
+
+background:#00ff66;
+
+color:black;
+
 }
 
-#score {
-    position:absolute;
-    bottom:20px;
-    right:25px;
-    color:#ffdd00;
+
+.good {
+
+color:#00ffff;
+
+}
+
+
+.bad {
+
+color:#ff4444;
+
 }

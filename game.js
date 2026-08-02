@@ -1,3 +1,12 @@
+window.onerror = function(message, source, line) {
+    document.body.innerHTML +=
+    "<h2 style='color:red'>" +
+    message +
+    "<br>Line: " +
+    line +
+    "</h2>";
+};
+
 const sceneText = document.getElementById("sceneText");
 const choices = document.getElementById("choices");
 

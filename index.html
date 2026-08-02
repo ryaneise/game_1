@@ -1,34 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Operation: Heavy Metal Link Budget</title>
-    <link rel="stylesheet" href="style.css">
+<title>METAL-X9: Deep Space Link Budget</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
 <div id="game">
 
-    <div id="space">
-        <div id="earth">🌎</div>
-        <div id="planet1">🪐</div>
-        <div id="planet2">🔴</div>
-        <div id="planet3">🌕</div>
-    </div>
+<div id="space">
+    <div id="earth">🌎</div>
+    <div id="moon">🌕</div>
+    <div id="satellite">🛰️</div>
+    <div id="mars">🔴</div>
+</div>
 
-    <div id="screen">
-        <h1 id="title">OPERATION: HEAVY METAL</h1>
 
-        <div id="story"></div>
+<div id="terminal">
 
-        <div id="choices"></div>
+<h1>METAL-X9 LINK RESTORATION</h1>
 
-        <div id="score">
-            Link Budget Progress: <span id="progress">0</span>/5
-        </div>
-    </div>
+<div id="sceneText"></div>
+
+
+<div id="budget">
+
+<h2>LIVE LINK BUDGET</h2>
+
+<table>
+
+<tr>
+<td>Frequency</td>
+<td id="freq">---</td>
+</tr>
+
+<tr>
+<td>TX Power</td>
+<td id="power">---</td>
+</tr>
+
+<tr>
+<td>Antenna Gain</td>
+<td id="gain">---</td>
+</tr>
+
+<tr>
+<td>EIRP</td>
+<td id="eirp">---</td>
+</tr>
+
+<tr>
+<td>FSPL</td>
+<td id="fspl">---</td>
+</tr>
+
+<tr>
+<td>Rain Fade</td>
+<td id="rain">---</td>
+</tr>
+
+<tr>
+<td>Pointing Loss</td>
+<td id="pointing">---</td>
+</tr>
+
+<tr>
+<td>Receiver G/T</td>
+<td id="gt">---</td>
+</tr>
+
+<tr>
+<td>C/N0</td>
+<td id="cn0">---</td>
+</tr>
+
+<tr>
+<td>MODCOD</td>
+<td id="modcod">---</td>
+</tr>
+
+<tr>
+<td>Eb/N0 Margin</td>
+<td id="margin">---</td>
+</tr>
+
+
+</table>
 
 </div>
 
+
+<div id="choices"></div>
+
+
+</div>
+
+</div>
+
+
+<script src="linkBudget.js"></script>
 <script src="game.js"></script>
+
 </body>
 </html>

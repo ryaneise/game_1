@@ -1,3 +1,4 @@
+document.body.innerHTML += "<h1 style='color:red'>GAME JS LOADED</h1>";
 alert("GAME.JS LOADED");
 const sceneText = document.getElementById("sceneText");
 const choices = document.getElementById("choices");

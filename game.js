@@ -1,3 +1,12 @@
+window.onerror = function(message, source, line) {
+    document.body.innerHTML +=
+    "<h2 style='color:red'>" +
+    message +
+    "<br>Line: " +
+    line +
+    "</h2>";
+};
+
 console.log("GAME STARTED");
 document.body.innerHTML += "<h1 style='color:red'>GAME JS LOADED</h1>";
 alert("GAME.JS LOADED");

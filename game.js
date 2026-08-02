@@ -1,3 +1,4 @@
+alert("GAME.JS LOADED");
 const sceneText = document.getElementById("sceneText");
 const choices = document.getElementById("choices");
 

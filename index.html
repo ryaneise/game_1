@@ -1,30 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First Game</title>
-
+    <title>Operation: Heavy Metal Link Budget</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <main>
-        <h1>My First Game</h1>
+<div id="game">
 
-        <p id="message">
-            Click the button to earn points!
-        </p>
+    <div id="space">
+        <div id="earth">🌎</div>
+        <div id="planet1">🪐</div>
+        <div id="planet2">🔴</div>
+        <div id="planet3">🌕</div>
+    </div>
 
-        <p>
-            Score: <span id="score">0</span>
-        </p>
+    <div id="screen">
+        <h1 id="title">OPERATION: HEAVY METAL</h1>
 
-        <button id="gameButton">
-            Play
-        </button>
-    </main>
+        <div id="story"></div>
 
-    <script src="game.js"></script>
+        <div id="choices"></div>
+
+        <div id="score">
+            Link Budget Progress: <span id="progress">0</span>/5
+        </div>
+    </div>
+
+</div>
+
+<script src="game.js"></script>
 </body>
 </html>
